@@ -1,32 +1,40 @@
 "use client";
+import { ConnectWallet, MediaRenderer } from "@thirdweb-dev/react";
 
 import {
   PublicationSortCriteria,
   useExplorePublicationsQuery,
 } from "../graphql/generated";
+import { metadata } from "./layout";
+import {
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+  PromiseLikeOfReactNode,
+} from "react";
 
 export default function ListUsers() {
-  const { data, isLoading, error, isFetching } = useExplorePublicationsQuery(
-    {
-      endpoint: "https://api-mumbai.lens.dev/",
-      fetchParams: {
-        headers: {
-          "content-type": "application/json",
-        },
-      },
+  const { data, isLoading, error, isFetching } = useExplorePublicationsQuery({
+    request: {
+      sortCriteria: PublicationSortCriteria.TopMirrored,
     },
-    {
-      request: {
-        sortCriteria: PublicationSortCriteria.TopCollected,
-      },
-    }
-  );
+  });
 
   console.log("--->", data);
   return (
     <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
-      <div style={{ marginBottom: "4rem", textAlign: "center" }}></div>
-
+      <div style={{ marginBottom: "4rem", textAlign: "center" }}>
+        <ConnectWallet />;
+      </div>
+      {/* <Web3Button
+        contractAddress="0xb413df01580659F671471956e9D2fAe989d1dcd3"
+        action={(contract) => contract.erc721.claim(1)}
+        theme="dark"
+      >
+        Claim an NFT!
+      </Web3Button> */}
       {error ? (
         <p>Oh no, there was an error</p>
       ) : isLoading || isFetching ? (
@@ -39,19 +47,19 @@ export default function ListUsers() {
             gap: 20,
           }}
         >
-          {/* {data.map((user) => (
+          {data?.explorePublications.items.map((post) => (
             <div
-              key={user.id}
+              key={post.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
             >
-              <img
-                src={`https://robohash.org/${user.id}?set=set2&size=180x180`}
-                alt={user.name}
-                style={{ height: 180, width: 180 }}
+              <MediaRenderer
+                src={post?.metadata?.media[0]?.original.url}
+                height="180"
+                width="180"
               />
-              <h3>{user.name}</h3>
+              <h3>{post?.metadata?.name}</h3>
             </div>
-          ))} */}
+          ))}
         </div>
       ) : null}
     </main>
