@@ -5,15 +5,6 @@ import {
   PublicationSortCriteria,
   useExplorePublicationsQuery,
 } from "../graphql/generated";
-import { metadata } from "./layout";
-import {
-  Key,
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  PromiseLikeOfReactNode,
-} from "react";
 
 export default function ListUsers() {
   const { data, isLoading, error, isFetching } = useExplorePublicationsQuery({
@@ -26,7 +17,7 @@ export default function ListUsers() {
   return (
     <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
       <div style={{ marginBottom: "4rem", textAlign: "center" }}>
-        <ConnectWallet />;
+        <ConnectWallet />
       </div>
       {/* <Web3Button
         contractAddress="0xb413df01580659F671471956e9D2fAe989d1dcd3"
@@ -52,11 +43,7 @@ export default function ListUsers() {
               key={post.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
             >
-              <MediaRenderer
-                src={post?.metadata?.media[0]?.original.url}
-                height="180"
-                width="180"
-              />
+              <MediaRenderer src={post?.metadata?.media[0]?.original.url} />
               <h3>{post?.metadata?.name}</h3>
             </div>
           ))}
