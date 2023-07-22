@@ -13,7 +13,6 @@ export default function ListUsers() {
     },
   });
 
-  console.log("--->", data);
   return (
     <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
       <div style={{ marginBottom: "4rem", textAlign: "center" }}>
